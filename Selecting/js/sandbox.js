@@ -6,7 +6,8 @@ $(document).ready(function() {
   $('#myListItem').css('color','#00f');
   $('#myList #myListItem').css('color','#00f');
   $('#myList').find('#myListItem').css('color','#00f');
-  $('#myList li:eq(2)').css('color', '#00f');
+  $('#myList li').eq(2).css('color', '#00f');
+  $('#myList li:nth-child(2)').css('color', '#00f');
   //best way is the First one as it refers directly by the id of the element and no depenedency on DOM
 
   //Select the label for the search input using an attribute selector.
