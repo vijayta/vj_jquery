@@ -1,14 +1,16 @@
 function $InputHint(textfield, labelVal){
-  var $text = textfield;
-  var $labelVal = labelVal;
+  var $text = textfield, 
+  $labelVal = labelVal, 
   $hint = $labelVal.remove().text();
   $text.addClass('hint');
+  $text.attr('value', $hint).addClass('hint');
   $text.bind('focus', function() {
     if($text.hasClass('hint')) {
       $text.attr('value','');
       $text.removeClass('hint');
     }
   });
+
   $text.bind('blur', function() {
     var $textValue = $text.val().trim();
     if($textValue == "") {
