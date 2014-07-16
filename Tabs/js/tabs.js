@@ -15,7 +15,6 @@ function Tabs(module){
     $ul.addClass('tabs').append($li.append($h2).data('respectiveModule', $this));
   });
 
-
   $('.tabs').find('li').each(function() {
     var $this = $(this);
     $this.click(function() {
