@@ -1,4 +1,4 @@
-function InputHint(textfield, labelVal){
+function InputHint(textfield, labelVal) {
   var $text = textfield, 
       $labelVal = labelVal, 
       hint = $labelVal.remove().text();
@@ -6,8 +6,7 @@ function InputHint(textfield, labelVal){
 
   $text.bind('focus', function() {
     if($text.hasClass('hint')) {
-      $text.attr('value','');
-      $text.removeClass('hint');
+      $text.attr('value','').removeClass('hint');
     }
   });
 
