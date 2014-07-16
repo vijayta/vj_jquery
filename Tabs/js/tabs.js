@@ -1,4 +1,4 @@
-function Tabs(module){
+function Tabs(module) {
   var $module = module;
   //Hide all of the modules.
   $module.hide().addClass('tabberModule');
@@ -11,8 +11,8 @@ function Tabs(module){
   $module.each(function() {
     var $this = $(this),
         $li = $('<li></li>'),
-        $h2 = $($this).find('h2').text();
-    $ul.addClass('tabs').append($li.append($h2).data('respectiveModule', $this));
+        h2 = $($this).find('h2').text();
+    $ul.addClass('tabs').append($li.append(h2).data('respectiveModule', $this));
   });
 
   $('.tabs').find('li').each(function() {
