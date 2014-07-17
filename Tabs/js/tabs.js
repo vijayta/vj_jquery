@@ -15,7 +15,7 @@ function Tabs(module) {
     $ul.addClass('tabs').append($li.append(h2).data('respectiveModule', $this));
   });
 
-  $('.tabs').find('li').each(function() {
+  $('.tabs li').click(function() {
     var $this = $(this);
     $this.click(function() {
       $this.data('respectiveModule').show();
@@ -23,11 +23,11 @@ function Tabs(module) {
       $this.siblings().data('respectiveModule').hide();
       $this.siblings().removeClass('current');
     });
-
-    //show the first tab.
+  });
+  
+  //show the first tab.
     $('.tabs li').eq(0).addClass('current');
     $($module).eq(0).show();
-  });
 }
 
 $(document).ready(function() { 
