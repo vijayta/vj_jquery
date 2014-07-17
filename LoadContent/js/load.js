@@ -13,7 +13,7 @@ function LoadContent(blog) {
         $target = $this.data('target'),
         href = $a.attr('href'),
         id = '#' + href.split('#')[1];
-    $(this).data('target').load("data/blog.html " + id);
+    $this.data('target').load("data/blog.html " + id);
   });
 }
 
