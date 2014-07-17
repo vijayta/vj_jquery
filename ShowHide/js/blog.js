@@ -5,7 +5,7 @@ function Slide(blogItem){
     $this.find('h3').click(function(clickObject) {
       clickObject.preventDefault();
       $this.siblings().find('p').each(function() {
-          // $(this).slideUp('400');
+          $(this).slideUp('400');
       });
       $this.find('p').slideDown('400');
     });
