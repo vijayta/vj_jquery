@@ -1,9 +1,8 @@
 function LoadDescription(blog) {
-  var $blog = blog;
-      this.heading = $blog.find('h3');
-      this.init();
+  this.init(blog);
 }
-LoadDescription.prototype.init = function() {
+LoadDescription.prototype.init = function(blog) {
+  this.heading = blog.find('h3');
   this.heading.each(function() {
     var $this = $(this),
         $target = $('<div/>').insertAfter($this);
