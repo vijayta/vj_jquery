@@ -1,7 +1,7 @@
-function swapCountries(droppable, draggable, item, list) {
+function SwapCountries(droppable, draggable, item, list) {
   this.init(droppable, draggable, item, list);
 }
-swapCountries.prototype.DropElem = function(droppable, list, item) {
+SwapCountries.prototype.dropElem = function(droppable, list, item) {
   droppable.droppable({
   drop: function(event, ui) {
       var $this = $(this);
@@ -18,16 +18,16 @@ swapCountries.prototype.DropElem = function(droppable, list, item) {
     });
   }
 }
-swapCountries.prototype.DragElem = function(draggable) {
+SwapCountries.prototype.dragElem = function(draggable) {
    draggable.draggable({
     revert: "invalid",
     helper: "clone",
     cursor: "move",
   });
 }
-swapCountries.prototype.init = function(droppable, draggable, item, list) {
-  this.DropElem(droppable)
-  this.DragElem(draggable);
+SwapCountries.prototype.init = function(droppable, draggable, item, list) {
+  this.dropElem(droppable)
+  this.dragElem(draggable);
 }
 $(document).ready(function() { 
   // Assigning values
@@ -37,7 +37,7 @@ $(document).ready(function() {
       $list = $('.list');
       
   // Calling Function
-  new swapCountries($droppable, $draggable, $item, $list);
+  new SwapCountries($droppable, $draggable, $item, $list);
  
 });
 
