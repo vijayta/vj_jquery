@@ -1,7 +1,7 @@
-function SwapCountries(droppable, draggable, item, list) {
-  this.init(droppable, draggable, item, list);
+function SwapCountries(droppable, draggable) {
+  this.init(droppable, draggable);
 }
-SwapCountries.prototype.dropElem = function(droppable, list, item) {
+SwapCountries.prototype.dropElem = function(droppable) {
   droppable.droppable({
   drop: function(event, ui) {
       var $this = $(this);
@@ -25,19 +25,17 @@ SwapCountries.prototype.dragElem = function(draggable) {
     cursor: "move",
   });
 }
-SwapCountries.prototype.init = function(droppable, draggable, item, list) {
+SwapCountries.prototype.init = function(droppable, draggable) {
   this.dropElem(droppable)
   this.dragElem(draggable);
 }
 $(document).ready(function() { 
   // Assigning values
   var $droppable = $('.droppable'), 
-      $draggable = $('.draggable'), 
-      $item = $('.item'), 
-      $list = $('.list');
+      $draggable = $('.draggable'); 
       
   // Calling Function
-  new SwapCountries($droppable, $draggable, $item, $list);
+  new SwapCountries($droppable, $draggable);
  
 });
 
