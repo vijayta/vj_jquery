@@ -35,5 +35,4 @@ $(document).ready(function() {
       
   // Calling Function
   new SwapCountries($droppable, $draggable);
- 
 });
