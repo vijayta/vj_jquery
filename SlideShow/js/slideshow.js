@@ -1,38 +1,38 @@
 function SlideShow(slideshow) {
-      //Move the #slideshow element to the top of the body.
-  var $slideshow = slideshow.prependTo($('body')),
-      $nav = $('<div class="nav" />').insertAfter($slideshow),
-      $totalSlide = $slideshow.children(),
-      timeout = false;
+  //Move the #slideshow element to the top of the body.
+  this.slideshow = slideshow.prependTo($('body'));
+  this.init();
+}
 
-  $totalSlide.hide();
-
-  updateCounter = function(num) {
-    $nav.text((num + 1) + " of " + $totalSlide.length);
-  },
-
-  getItem = function($item, trav) {
-    var $returnItem = $item[trav]();
-    return $returnItem.length ?
-      $returnItem : $totalSlide[(trav == 'next') ? 'first' : 'last']();
-  },
-  
-  showItem = function($currentItem, $itemToShow) {
-    var $itemToShow = $itemToShow || getItem($currentItem,'next');
+SlideShow.prototype.getItem = function($item, trav) {
+  var $returnItem = $item[trav]();
+  return $returnItem.length ?
+    $returnItem : this.totalSlide[(trav == 'next') ? 'first' : 'last']();
+}
+SlideShow.prototype.showItem = function($currentItem, $itemToShow) {
+  var $itemToShow = $itemToShow || this.getItem($currentItem,'next');
     $currentItem.fadeOut(200, function() {
-      $itemToShow.fadeIn(200,fadeCallback);
+      $itemToShow.fadeIn(200, this.fadeCallback());
     });
-  },
-  fadeCallback = function() {
-  var $this = $(this)
+}
+SlideShow.prototype.updateCounter = function(num) {
+  $nav = $('<div class="nav" />').insertAfter(this.slideshow);
+  $nav.text((num + 1) + " of " + this.totalSlide.length);
+}
+SlideShow.prototype.fadeCallback = function() {
+  var $this = $(this),
   num = $this.prevAll().length,
-  $next = getItem($this,'next');
-  updateCounter(num);
+  $next = this.getItem($this, 'next'),
+  timeout = false;
+  this.updateCounter(num);
   timeout = setTimeout(function() {
-    showItem($this,$next);
+    $this.showItem($this ,$next);
     }, 2000);
-  }
-  $totalSlide.eq(0).fadeIn(100, fadeCallback);
+}
+SlideShow.prototype.init = function() {
+  this.totalSlide = this.slideshow.children();
+  this.totalSlide.hide();
+  this.totalSlide.eq(0).fadeIn(100, this.fadeCallback());
 }
 
 $(function() { 
