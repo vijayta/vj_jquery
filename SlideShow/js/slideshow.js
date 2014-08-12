@@ -24,7 +24,7 @@ SlideShow.prototype.init = function(slideshow) {
   $length = $items.length;
   $items.hide();
   this.updateCounter();
-  this.showItem($items.first());
+  this.showItem();
 }
 
 $(function() { 
