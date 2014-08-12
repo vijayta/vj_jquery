@@ -1,39 +1,30 @@
 function SlideShow(slideshow) {
-  //Move the #slideshow element to the top of the body.
-  this.slideshow = slideshow.prependTo($('body'));
-  this.init();
+  i = 0;
+  this.init(slideshow);
 }
 
-SlideShow.prototype.getItem = function($item, trav) {
-  var $returnItem = $item[trav]();
-  return $returnItem.length ?
-    $returnItem : this.totalSlide[(trav == 'next') ? 'first' : 'last']();
+SlideShow.prototype.showItem = function() {
+  if(i == $length) {
+    i = 0;
+  }
+  $items.eq(i).fadeIn(1000).delay(1000).fadeOut(1000,function() { 
+    showItem();
+  });
+  i++; 
 }
-SlideShow.prototype.showItem = function($currentItem, $itemToShow) {
-  // var $itemToShow = $itemToShow || this.getItem($currentItem,'next');
-  //   $currentItem.fadeOut(200, function() {
-  //     $itemToShow.fadeIn(200, this.fadeCallback());
-  //   });
-alert('hello');
+
+SlideShow.prototype.updateCounter = function() {
+  $nav = $('<div class="nav" />').insertAfter(slideshow);
+  $nav.text((i + 1) + " of " + $length);
 }
-SlideShow.prototype.updateCounter = function(num) {
-  $nav = $('<div class="nav" />').insertAfter(this.slideshow);
-  $nav.text((num + 1) + " of " + this.totalSlide.length);
-}
-SlideShow.prototype.fadeCallback = function() {
-  var $this = $(this),
-  num = $this.prevAll().length,
-  $next = this.getItem($this, 'next'),
-  timeout = false;
-  this.updateCounter(num);
-  timeout = setTimeout(function() {
-    this.showItem($this ,$next);
-    }, 2000);
-} 
-SlideShow.prototype.init = function() {
-  this.totalSlide = this.slideshow.children();
-  this.totalSlide.hide();
-  this.totalSlide.eq(0).fadeIn(100, this.fadeCallback());
+
+SlideShow.prototype.init = function(slideshow) {
+  $slideshow = slideshow.prependTo($('body'));
+  $items = slideshow.find('li');
+  $length = $items.length;
+  $items.hide();
+  this.updateCounter();
+  this.showItem($items.first());
 }
 
 $(function() { 
