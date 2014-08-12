@@ -17,6 +17,7 @@ SlideShow.prototype.showItem = function() {
 
 SlideShow.prototype.updateCounter = function() {
   $nav = $('<div class="nav" />').insertAfter(slideshow);
+  $nav.text((i + 1) + " of " + $length);
 }
 
 SlideShow.prototype.init = function(slideshow) {
