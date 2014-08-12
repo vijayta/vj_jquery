@@ -10,10 +10,11 @@ SlideShow.prototype.getItem = function($item, trav) {
     $returnItem : this.totalSlide[(trav == 'next') ? 'first' : 'last']();
 }
 SlideShow.prototype.showItem = function($currentItem, $itemToShow) {
-  var $itemToShow = $itemToShow || this.getItem($currentItem,'next');
-    $currentItem.fadeOut(200, function() {
-      $itemToShow.fadeIn(200, this.fadeCallback());
-    });
+  // var $itemToShow = $itemToShow || this.getItem($currentItem,'next');
+  //   $currentItem.fadeOut(200, function() {
+  //     $itemToShow.fadeIn(200, this.fadeCallback());
+  //   });
+alert('hello');
 }
 SlideShow.prototype.updateCounter = function(num) {
   $nav = $('<div class="nav" />').insertAfter(this.slideshow);
@@ -26,9 +27,9 @@ SlideShow.prototype.fadeCallback = function() {
   timeout = false;
   this.updateCounter(num);
   timeout = setTimeout(function() {
-    $this.showItem($this ,$next);
+    this.showItem($this ,$next);
     }, 2000);
-}
+} 
 SlideShow.prototype.init = function() {
   this.totalSlide = this.slideshow.children();
   this.totalSlide.hide();
