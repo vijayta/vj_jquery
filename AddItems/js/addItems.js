@@ -5,10 +5,10 @@ addItem.prototype.removeFirstChild = function(stackHolder, counter) {
   stackHolder.delegate('div.newItem' , "click", function() {
     var $this = $(this);
     $this.toggleClass('highlight');
-    if($this.is(':first-child')) {
-      $this.remove().removeClass('highlight');
-      counter--;
-    }
+  });
+  stackHolder.delegate('.newItem:first-child' , "click", function() {
+    $(this).remove();
+    counter--;
   });
 }
 addItem.prototype.init = function(stackHolder, add) {
