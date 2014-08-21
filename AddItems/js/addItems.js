@@ -3,8 +3,7 @@ function addItem(stackHolder, add) {
 }
 addItem.prototype.removeFirstChild = function(stackHolder, counter) {
   stackHolder.delegate('div.newItem' , "click", function() {
-    var $this = $(this);
-    $this.toggleClass('highlight');
+    $(this).toggleClass('highlight');
   });
   stackHolder.delegate('.newItem:first-child' , "click", function() {
     $(this).remove();
