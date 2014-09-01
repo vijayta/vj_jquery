@@ -1,33 +1,34 @@
 function SlideShow(slideshow) {
-  this.init(slideshow);
+  this.slideshow = slideshow;
+  this.init();
 }
 
 SlideShow.prototype.showItem = function() {
-  var _this = this, 
-      i = 0;
-  if(i == $length) {
-    i = 0;
+  var _this = this;
+  if(this.loop == this.length) {
+    this.loop = 0;
   }
-  $items.eq(i).fadeIn(1000).delay(1000).fadeOut(1000,function() { 
+  this.items.eq(_this.loop).fadeIn(1000).delay(1000).fadeOut(1000,function() { 
     _this.showItem();
-    $nav.text((i) + " of " + $length);
+    $nav.text((_this.loop) + " of " + _this.length);
   });
-  i++; 
+  this.loop++;
 }
 
 SlideShow.prototype.updateCounter = function() {
-  var i = 0;
-  $nav = $('<div class="nav" />').insertAfter(slideshow);
-  $nav.text((i + 1) + " of " + $length);
+  $nav = $('<div class="nav" />').insertAfter(this.slideshow);
+  $nav.text((this.loop) + " of " + this.length);
 }
 
-SlideShow.prototype.init = function(slideshow) {
-  $slideshow = slideshow.prependTo($('body'));
-  $items = slideshow.find('li');
-  $length = $items.length;
-  $items.hide();
-  this.updateCounter();
+SlideShow.prototype.init = function() {
+  $slideshow = this.slideshow.prependTo($('body'));
+  this.items = this.slideshow.find('li');
+  this.length = this.items.length;
+  this.items.hide();
+  this.loop = 0;
   this.showItem();
+  this.updateCounter();
+  
 }
 
 $(function() { 
