@@ -1,7 +1,7 @@
 function addItem(stackHolder, add) {
   this.add = add;
   this.stackHolder = stackHolder;
-  this.init(stackHolder);
+  this.init();
   this.counter = 1;
 }
 addItem.prototype.addButtonListener = function() {
