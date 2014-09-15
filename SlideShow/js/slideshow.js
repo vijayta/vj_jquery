@@ -1,6 +1,5 @@
 function SlideShow(slideshow) {
   this.slideshow = slideshow;
-  this.init();
 }
 
 SlideShow.prototype.showItem = function() {
@@ -10,14 +9,14 @@ SlideShow.prototype.showItem = function() {
   }
   this.items.eq(_this.loop).fadeIn(1000).delay(1000).fadeOut(1000,function() { 
     _this.showItem();
-    $nav.text((_this.loop) + " of " + _this.length);
+    _this.nav.text((_this.loop) + " of " + _this.length);
   });
   this.loop++;
 }
 
 SlideShow.prototype.updateCounter = function() {
-  $nav = $('<div class="nav" />').insertAfter(this.slideshow);
-  $nav.text((this.loop) + " of " + this.length);
+  this.nav = $('<div class="nav" />').insertAfter(this.slideshow);
+  this.nav.text((this.loop) + " of " + this.length);
 }
 
 SlideShow.prototype.init = function() {
@@ -33,5 +32,7 @@ SlideShow.prototype.init = function() {
 
 $(function() { 
   var $slideshow = $('#slideshow');
-  new SlideShow($slideshow);
+  var slides = new SlideShow($slideshow);
+  slides.init();
+
 });
