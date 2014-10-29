@@ -4,11 +4,6 @@ var SlideShow = function ($slideShow, $slideList) {
   this.$length = this.$slideList.length;
   this.$index = 0;
 }
-SlideShow.prototype.init = function () {
-  this.SliderPosition();
-  this.updateCounter();
-  this.showItem(this.$slideList.first());
-}
 SlideShow.prototype.SliderPosition = function () {
   this.$slideShow.prependTo('body');
   this.$slideList.hide();
@@ -30,7 +25,11 @@ SlideShow.prototype.showItem = function ($nextSlide) {
     }
   });
 }
-
+SlideShow.prototype.init = function () {
+  this.SliderPosition();
+  this.updateCounter();
+  this.showItem(this.$slideList.first());
+}
 $(function() {
   var Slider = new SlideShow($('#slideshow'), $('#slideshow li'));
   Slider.init();
