@@ -1,52 +1,91 @@
-function ProductRating() {
-  this.init();
+var ProductRating = function ($container, products, ratings) {
+  this.$container = $container;
+  this.products = products;
+  this.ratings = ratings;
 }
-ProductRating.prototype.createRating = function() {
-  this.ratings = ["Love it", "Like it", "No Views", "Dislike it", "Abhor it"];
-  var $ratingsContainer = $('#rating_values');
-  $.each(this.ratings, function(index, value) {
-    $ratingsContainer.append($('<div class="rating" id="' + value.toLowerCase().replace(/ /g, '_') + '">' + value + '</div>'));
-  });
+
+ProductRating.prototype.initMethods = function () {
+  this.createBlocks();
+  this.bindEvents();
 }
-ProductRating.prototype.createProducts = function() {
-  var drinks = ["Coffee", "Tea", "Sodas"], 
-      _this = this;
-  $.each(drinks, function(index, value) {
-    _this.createProductRow(value);
-  });
+
+ProductRating.prototype.createBlocks = function () {
+  this.createRatingLabels();
+  this.createProductsRow();
 }
-ProductRating.prototype.createProductRow = function(productName){
-  var product_id = productName.toLowerCase().replace(/ /g, '_'), 
-  $containerDiv = $('<div id="' + product_id + '_rating" class="row"></div>').appendTo($('#products_rating'));
-  $containerDiv.append($('<div id="' + product_id + '" class="productName">' + productName + '</div>'));
-  for (var i = 0, j = this.ratings.length; i < j; i++) {
-    $containerDiv.append($('<div class="radio_box"><input class="' + this.ratings[i].toLowerCase().replace(/ /g, '_') + '" type="radio" name="' + product_id + '_rating" disabled /></div>'));  
+
+ProductRating.prototype.createRatingLabels = function () {
+  var _this = this,
+      dataRatings = _this.ratings,
+      ratingsArray = [];
+
+  for(i = 0; i < dataRatings.length; i++) {
+    ratingsArray.push($('<label/>').attr('for', dataRatings[i].type).attr('id', dataRatings[i].type.replace(' ', '-').toLowerCase()).addClass('ratings').text(dataRatings[i].type));
   }
+  $('<div/>').addClass('rate-row').append(ratingsArray).appendTo(_this.$container);
 }
-ProductRating.prototype.activeItems = function() {
-  $('#products_rating').delegate('.productName', 'click', function () {
-    var $this = $(this), 
-        id = this.value, 
-        product = $this.attr('name');
-        
-    $this.toggleClass('highlighted').parent().siblings().find('.productName').removeClass('highlighted'); 
+
+ProductRating.prototype.createProductsRow = function () {
+  var _this = this,
+      elemArray = [],
+      dataRatings = _this.ratings,
+      dataProducts = _this.products;
+
+  for (var i = 0; i < dataProducts.length; i++) {
+    var productRow = $('<div/>').addClass('product-row'),
+        labels = $('<label/>').attr('for', dataProducts[i].item).attr('id', dataProducts[i].item).addClass('prod-item').html(dataProducts[i].item).appendTo(productRow);
+
+    elemArray.push(productRow);
+
+    for (var j = 0; j < dataRatings.length; j++) {
+      var radio = $('<input/>').attr({'name': dataProducts[i].item, 'type': 'radio', 'data-name': dataRatings[j].type.replace(' ', '-').toLowerCase()}),
+      $span = $('<span/>').addClass('radios');
+
+      $span.append(radio).appendTo(productRow);
+    }
+  }
+  _this.$container.append(elemArray);
+}
+
+ProductRating.prototype.bindEvents = function () {
+  this.bindEventOnRadioButtons();
+  this.bindEventOnProductLabels();
+  this.bindEventOnRatingLabels();
+}
+
+ProductRating.prototype.bindEventOnRadioButtons = function () {
+  this.$container.delegate('input[type="radio"]', 'click', function () {
+    var $this = $(this);
+    $('.rate-row').find('#' + $this.data('name')).addClass('highlighted').siblings().removeClass('highlighted');
+    $('.product-row').find('#' + $this.attr('name')).addClass('highlighted').parent().siblings().find('.prod-item').removeClass('highlighted');
   });
-  $('#rating_values').delegate('.rating', 'click', function () {
+}
+
+ProductRating.prototype.bindEventOnProductLabels = function () {
+  this.$container.delegate('.prod-item', 'click', function () {
+    var $this = $(this);
+    $('.prod-item.selected').removeClass('selected');
+    $this.addClass('selected highlighted').parent().siblings().removeClass('selected highlighted');
+    $('.prod-item.selected').parent('.product-row').siblings().find('.prod-item').removeClass('highlighted');
+    $('.rate-row').find('.highlighted').removeClass('highlighted');
+    $('.rate-row').find('#' + $this.parent().find('input:checked').attr('data-name')).addClass('highlighted');
+    if(!($('.prod-item').hasClass('highlighted'))) {
+      $('.ratings').removeClass('highlighted');
+    };
+  });
+}
+
+ProductRating.prototype.bindEventOnRatingLabels = function () {
+  this.$container.delegate('.ratings', 'click', function () {
     var $this = $(this);
     $('.highlighted').each(function () {
-      $this.addClass('highlighted').siblings().removeClass('highlighted');
-      $(this).siblings('div').find('input[class = "' + $this.attr('id') + '"]').prop('checked', true).parent().siblings('div').children().prop('checked', false);
+      $this.addClass('highlighted').siblings('.ratings').removeClass('highlighted');
+      $(this).siblings('span').find('input[data-name = "' + $this.attr('id') + '"]').prop('checked', true).parent().siblings('span').children().prop('checked', false);
     });
   });
-} 
-
-ProductRating.prototype.init = function(){
-  this.createRating();
-  this.createProducts();
-  this.activeItems();
 }
 
-$(function() { 
-  // Calling Function
-  new ProductRating();
+$(function () {
+  var productRating = new ProductRating($('#products_rating'), [{'item': 'Coffee'}, {'item': 'Tea'}, {'item': 'Sodas'}], [{'type':'Love it'}, {'type':'Like it'}, {'type':'No Views'}, {'type':'Dislike it'}, {'type':'Abhor it'}]);
+  productRating.initMethods();
 });
