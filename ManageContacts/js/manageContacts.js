@@ -1,31 +1,23 @@
-function Contact() {
-  // Assigning values
-  this.required = $('.required'), 
-  this.userEmail = $('#user_email'),
-  this.btnAdd = $('#add_button'),
-  this.contactList = $('#contact_list'), 
-  this.search = $('#search');
-}
-function ContactManager() {
-  this.contact = new Contact();
+function ContactManager(params) {
+  this.params = params;
   this.emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   this.bindEvents();
 }
 ContactManager.prototype.addContact = function() {
   var _this = this;
-  this.contact.btnAdd.click(function() {
+  this.params.btnAdd.click(function() {
     _this.getValue();
   });
 }
 ContactManager.prototype.getValue = function() {
   var inputVal = [];
   if(this.getInputValue(inputVal) && this.validateEmail()) {
-    this.contact.required.val('');
+    this.params.required.val('');
     this.addContactBlock(inputVal[0], inputVal[1]);
   }
 }
 ContactManager.prototype.getInputValue = function(valueArray) {
-  var requiredvalue = this.contact.required;
+  var requiredvalue = this.params.required;
   for(i = 0, len = requiredvalue.length; i < len; i++) {
     if(!requiredvalue[i].value.trim()) {
       alert(requiredvalue[i].name + " field can't be empty");
@@ -40,9 +32,9 @@ ContactManager.prototype.getInputValue = function(valueArray) {
 }
 
 ContactManager.prototype.validateEmail= function () {
-  if(!this.emailReg.test(this.contact.userEmail.val())) {
+  if(!this.emailReg.test(this.params.userEmail.val())) {
     alert('Please enter valid email Address');
-    this.contact.userEmail.focus();
+    this.params.userEmail.focus();
     return false;
   }
   return true;
@@ -54,21 +46,20 @@ ContactManager.prototype.addContactBlock = function(elem1, elem2) {
       $deleteButton = $('<input/>').attr({type: 'button', value: 'Delete'}).addClass('btn_delete'),
       $listItem = $('<li/>').attr('data-name', elem1.toLowerCase()).addClass('item');
 
-  $listItem.append($name, $email, $deleteButton).appendTo(this.contact.contactList);
+  $listItem.append($name, $email, $deleteButton).appendTo(this.params.contactList);
 }
 
 ContactManager.prototype.deleteBlock = function() {
-  this.contact.contactList.delegate('.btn_delete', 'click', function () {
+  this.params.contactList.delegate('.btn_delete', 'click', function () {
     $(this).parent().remove();
   });
 }
 
 ContactManager.prototype.searchContact = function() {
   var _this = this;
-  _this.contact.search.keyup(function () {
+  _this.params.search.keyup(function () {
     var text = $(this).val().toLowerCase().trim(),
-        $name = _this.contact.contactList.find('.item');
-
+        $name = _this.params.contactList.find('.item');
     $name.each(function () {
       var $this = $(this);
       if($this.data('name').indexOf(text) == 0) {
@@ -87,6 +78,6 @@ ContactManager.prototype.bindEvents = function(){
 }
 
 $(function () {
-  // Calling Function
-  contactManager = new ContactManager();
+  var params =  {required: $(".required"), userEmail: $('#user_email'), search: $('#search'), contactList: $('#contact_list'), btnAdd: $('#add_button')},
+  contactManager = new ContactManager(params); // Calling Function
 });
