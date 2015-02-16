@@ -5,9 +5,7 @@ function ContactManager(jq_elements) {
 }
 ContactManager.prototype.bindAddButtonListener = function() {
   var _this = this;
-  this.jq_elements.btnAdd.click(function() {
-    _this.valicateUserInput();
-  });
+  this.jq_elements.btnAdd.click(_this.valicateUserInput.bind(this));
 }
 ContactManager.prototype.valicateUserInput = function() {
   var inputVal = [];
